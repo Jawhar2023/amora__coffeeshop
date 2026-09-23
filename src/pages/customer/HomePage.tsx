@@ -34,9 +34,13 @@ export default function HomePage() {
         </button>
         <div className="relative flex h-full flex-col items-center justify-between px-6 pb-10 pt-8 text-center">
           <div className="flex w-full items-center justify-between">
-            <span className="rounded-xl border border-white/25 bg-white/95 px-4 py-2 shadow-lg">
-              <img src="/amora-logo.png" alt={settings.restaurantName} className="h-10 w-auto sm:h-12" />
-            </span>
+            <a
+              href="/"
+              aria-label="Amora home"
+              className="group rounded-2xl border border-white/70 bg-white px-5 py-3 shadow-xl transition hover:scale-[1.03]"
+            >
+              <img src="/amora-logo-transparent.png" alt={settings.restaurantName} className="h-12 w-auto sm:h-14" />
+            </a>
           </div>
         </div>
       </section>
@@ -56,22 +60,8 @@ export default function HomePage() {
             <HomeAction icon={<Gamepad2 size={24} />} title="Play games" detail="Have fun while you wait" onClick={() => navigate('/games')} tone="gold" />
             <HomeAction icon={<Star size={24} />} title="Leave a review" detail="Tell us what you think" href={reviewUrl} tone="cream" />
             <HomeAction icon={<Wifi size={24} />} title="Free Wi-Fi" detail="Scan to connect" onClick={() => setWifiOpen(true)} tone="mint" />
-          </div>
-
-          <div className="mt-7 border-t border-white/10 pt-6">
-            <p className="text-center text-xs font-bold uppercase tracking-[0.22em] text-white/45">Follow Amora</p>
-            <div className="mt-3 flex justify-center gap-3">
-              {settings.instagramUrl && (
-                <a href={settings.instagramUrl} target="_blank" rel="noopener noreferrer" aria-label="Open Amora on Instagram" className="flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-white/10 text-white transition hover:-translate-y-0.5 hover:bg-white/20">
-                  <InstagramIcon size={20} />
-                </a>
-              )}
-              {settings.tiktokUrl && (
-                <a href={settings.tiktokUrl} target="_blank" rel="noopener noreferrer" aria-label="Open Amora on TikTok" className="flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-white/10 text-white transition hover:-translate-y-0.5 hover:bg-white/20">
-                  <TikTokIcon size={20} />
-                </a>
-              )}
-            </div>
+            <HomeAction icon={<InstagramIcon size={24} />} title="Instagram" detail="Follow our daily mood" href={settings.instagramUrl} tone="rose" />
+            <HomeAction icon={<TikTokIcon size={24} />} title="TikTok" detail="See Amora in motion" href={settings.tiktokUrl} tone="lavender" />
           </div>
         </div>
       </section>
@@ -111,11 +101,17 @@ function HomeAction({
   detail: string;
   onClick?: () => void;
   href?: string;
-  tone: 'coral' | 'gold' | 'cream' | 'mint';
+  tone: 'coral' | 'gold' | 'cream' | 'mint' | 'rose' | 'lavender';
 }) {
-  const className = `group relative min-h-32 overflow-hidden rounded-2xl p-3.5 text-left shadow-lg transition-transform hover:-translate-y-1 active:scale-[0.98] sm:min-h-36 sm:p-4 ${
-    tone === 'coral' ? 'bg-brand-600 text-white' : tone === 'gold' ? 'bg-[#c9a46a] text-[#241e1b]' : tone === 'cream' ? 'bg-[#fbf6f1] text-[#241e1b]' : 'bg-[#d7e4d6] text-[#241e1b]'
+  const className = `group relative isolate min-h-32 overflow-hidden rounded-2xl p-3.5 text-left shadow-lg ring-1 ring-black/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl active:scale-[0.98] sm:min-h-36 sm:p-4 ${
+    tone === 'coral' ? 'bg-brand-600 text-white' : tone === 'gold' ? 'bg-[#c9a46a] text-[#241e1b]' : tone === 'cream' ? 'bg-[#fbf6f1] text-[#241e1b]' : tone === 'mint' ? 'bg-[#d7e4d6] text-[#241e1b]' : tone === 'rose' ? 'bg-[#e8b9b0] text-[#241e1b]' : 'bg-[#d9cde5] text-[#241e1b]'
   }`;
-  const content = <><span className="flex h-10 w-10 items-center justify-center rounded-xl bg-black/10">{icon}</span><span className="mt-6 block text-base font-extrabold leading-tight sm:mt-8 sm:text-lg">{title}</span><span className="mt-1 block max-w-[130px] text-[11px] leading-snug opacity-70 sm:text-xs">{detail}</span><ChevronRight className="absolute bottom-3.5 right-3.5 opacity-60 transition-transform group-hover:translate-x-1" size={17} /></>;
+  const content = <>
+    <span className="absolute -right-8 -top-8 -z-10 h-24 w-24 rounded-full bg-white/15 transition-transform duration-500 group-hover:scale-150" aria-hidden="true" />
+    <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/25 shadow-inner ring-1 ring-white/20 transition-transform duration-300 group-hover:scale-110">{icon}</span>
+    <span className="mt-5 block text-base font-extrabold leading-tight sm:mt-7 sm:text-lg">{title}</span>
+    <span className="mt-1 block max-w-[140px] text-[11px] leading-snug opacity-70 sm:text-xs">{detail}</span>
+    <span className="absolute bottom-3.5 right-3.5 flex h-7 w-7 items-center justify-center rounded-full bg-black/10 transition-transform group-hover:translate-x-1"><ChevronRight size={16} /></span>
+  </>;
   return href ? <a className={className} href={href} target="_blank" rel="noopener noreferrer">{content}</a> : <button className={className} onClick={onClick}>{content}</button>;
 }
