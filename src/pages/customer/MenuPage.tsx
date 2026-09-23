@@ -121,7 +121,7 @@ export default function MenuPage() {
             {groupedProducts.map(({ category, products: categoryProducts }) => (
               <section key={category.id} id={`category-${category.id}`}>
                 <h2 className="mb-3 border-b border-brand-200 pb-2 text-lg font-extrabold text-brand-700">{field(category, 'name')}</h2>
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3 xl:grid-cols-4">
                   {categoryProducts.map((p) => (
                     <ProductCard
                       key={p.id}
@@ -138,7 +138,7 @@ export default function MenuPage() {
             ))}
           </div>
         ) : (
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3 xl:grid-cols-4">
             {filtered.map((p) => (
               <ProductCard
                 key={p.id}
