@@ -5,6 +5,7 @@ import { CartProvider } from '@/context/CartContext';
 
 import CustomerLayout from '@/components/menu/CustomerLayout';
 import MenuPage from '@/pages/customer/MenuPage';
+import HomePage from '@/pages/customer/HomePage';
 import ProductPage from '@/pages/customer/ProductPage';
 import CartPage from '@/pages/customer/CartPage';
 import OrderConfirmationPage from '@/pages/customer/OrderConfirmationPage';
@@ -42,7 +43,7 @@ export default function App() {
         <CartProvider>
           <BrowserRouter>
             <Routes>
-              <Route path="/" element={<Navigate to="/menu" replace />} />
+              <Route path="/" element={<HomePage />} />
 
               <Route element={<CustomerLayout />}>
                 <Route path="/menu" element={<MenuPage />} />

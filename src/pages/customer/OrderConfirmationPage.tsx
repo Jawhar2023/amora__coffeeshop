@@ -1,18 +1,14 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { PartyPopper, Gamepad2, Clock, Star, Gift, Copy, Check } from 'lucide-react';
+import { PartyPopper, Gamepad2, Star, Gift, Copy, Check } from 'lucide-react';
 import { useLanguage } from '@/i18n/LanguageContext';
 import { OrderRepository } from '@/services/storage/orderStorage';
-import { ProductRepository, CategoryRepository } from '@/services/storage/menuStorage';
 import { SettingsRepository } from '@/services/storage/settingsStorage';
 import { ReviewTrackingRepository } from '@/services/storage/gameStorage';
 import { ReviewRewardRepository } from '@/services/storage/reviewRewardStorage';
 import { formatMoney } from '@/services/calculations/money';
 import Button from '@/components/ui/Button';
 import { FacebookIcon, InstagramIcon } from '@/components/ui/SocialIcons';
-import type { OrderStatus } from '@/types';
-
-const STATUS_STEPS: OrderStatus[] = ['pending', 'preparing', 'ready', 'served'];
 
 export default function OrderConfirmationPage() {
   const { id } = useParams();
@@ -63,14 +59,6 @@ export default function OrderConfirmationPage() {
     );
   }
 
-  const stepIndex = Math.max(0, STATUS_STEPS.indexOf(order.status === 'confirmed' ? 'pending' : order.status));
-
-  const hasCoffee = order.items.some((item) => {
-    const product = ProductRepository.getById(item.productId);
-    const category = product ? CategoryRepository.getById(product.categoryId) : undefined;
-    return category?.name.toLowerCase().includes('coffee');
-  });
-
   return (
     <div className="flex min-h-screen flex-col items-center px-5 pb-8 pt-8 text-center">
       <span className="animate-fade-up inline-flex items-center justify-center rounded-2xl bg-white px-5 py-3 shadow-card">
@@ -96,14 +84,17 @@ export default function OrderConfirmationPage() {
         </div>
       </div>
 
-      {hasCoffee && (
-        <p className="mt-5 w-full max-w-sm rounded-xl bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-700">
-          ☕ {t('coffeeSelfService')}
+      <div className="mt-6 w-full max-w-sm rounded-2xl border border-brand-200 bg-brand-50 px-5 py-5 text-center shadow-card">
+        <p className="font-[var(--font-display)] text-2xl font-bold leading-tight text-brand-800 sm:text-3xl">
+          ☕ Coffee is self-service
         </p>
-      )}
+        <p className="mt-2 text-base font-semibold leading-relaxed text-brand-700 sm:text-lg">
+          please pick it up at the coffee counter.
+        </p>
+      </div>
 
       <div className="mt-6 w-full max-w-sm rounded-2xl border border-ink-100 bg-white p-4 text-left shadow-card">
-        <p className="mb-2 text-xs font-bold uppercase tracking-wide text-ink-400">{t('yourCart')}</p>
+        <p className="mb-2 text-lg font-extrabold text-ink-900">Your Order</p>
         <div className="divide-y divide-ink-100">
           {order.items.map((item, i) => (
             <div key={i} className="flex items-center justify-between py-1.5 text-sm">
@@ -113,39 +104,6 @@ export default function OrderConfirmationPage() {
               <span className="font-semibold text-ink-800">{formatMoney(item.lineTotal)}</span>
             </div>
           ))}
-        </div>
-      </div>
-
-      <div className="mt-4 w-full max-w-sm rounded-2xl border border-ink-100 bg-white p-4 text-left shadow-card">
-        <p className="flex items-center gap-2 text-sm font-semibold text-ink-800">
-          <Clock size={16} className="text-brand-500" /> {t('estimatedPrep')}: 15–20 {t('minutes')}
-        </p>
-        <p className="mt-1 text-sm text-ink-500">{t('yourFoodIsPreparing')}</p>
-
-        <div className="mt-4">
-          <p className="mb-2 text-xs font-bold uppercase tracking-wide text-ink-400">{t('myOrders')}</p>
-          <div className="flex items-center justify-between">
-            {STATUS_STEPS.map((step, i) => (
-              <div key={step} className="flex flex-1 items-center">
-                <div
-                  className={`flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold ${
-                    i <= stepIndex ? 'bg-brand-600 text-white' : 'bg-ink-100 text-ink-400'
-                  }`}
-                >
-                  {i + 1}
-                </div>
-                {i < STATUS_STEPS.length - 1 && (
-                  <div className={`h-0.5 flex-1 ${i < stepIndex ? 'bg-brand-600' : 'bg-ink-100'}`} />
-                )}
-              </div>
-            ))}
-          </div>
-          <div className="mt-1.5 flex justify-between text-[10px] font-semibold text-ink-500">
-            <span>{t('received')}</span>
-            <span>{t('preparing')}</span>
-            <span>{t('ready')}</span>
-            <span>{t('served')}</span>
-          </div>
         </div>
       </div>
 
@@ -221,7 +179,7 @@ export default function OrderConfirmationPage() {
         )}
       </div>
 
-      {(settings.facebookUrl || settings.instagramUrl) && (
+      {(settings.facebookUrl || settings.instagramUrl || settings.tiktokUrl) && (
         <div className="mt-6 w-full max-w-sm">
           <p className="text-[11px] font-bold uppercase tracking-wide text-ink-400">{t('followUs')}</p>
           <div className="mt-2 flex gap-2.5">
@@ -243,6 +201,16 @@ export default function OrderConfirmationPage() {
                 className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-gradient-to-tr from-[#f9ce34] via-[#ee2a7b] to-[#6228d7] py-2.5 text-sm font-semibold text-white transition-transform active:scale-95"
               >
                 <InstagramIcon size={16} /> Instagram
+              </a>
+            )}
+            {settings.tiktokUrl && (
+              <a
+                href={settings.tiktokUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-ink-900 py-2.5 text-sm font-semibold text-white transition-transform active:scale-95"
+              >
+                ♪ TikTok
               </a>
             )}
           </div>
