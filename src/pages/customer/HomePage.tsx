@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { ChevronRight, Gamepad2, Menu, Star, Wifi, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { SettingsRepository } from '@/services/storage/settingsStorage';
-import { InstagramIcon } from '@/components/ui/SocialIcons';
+import { InstagramIcon, TikTokIcon } from '@/components/ui/SocialIcons';
 
 const reviewUrl = 'https://search.google.com/local/writereview?placeid=ChIJAWXNDKOL_RIRPGxFqdLfS-0';
 
@@ -13,7 +13,7 @@ export default function HomePage() {
 
   return (
     <main className="min-h-screen bg-[#241e1b] text-white">
-      <section className="relative h-[56vh] min-h-[440px] overflow-hidden">
+      <section className="relative h-[43vh] min-h-[330px] overflow-hidden">
         <video
           className="absolute inset-0 h-full w-full object-cover"
           src="/amora-cover.mp4"
@@ -26,22 +26,14 @@ export default function HomePage() {
         <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/25 to-[#241e1b]" />
         <div className="relative flex h-full flex-col items-center justify-between px-6 pb-10 pt-8 text-center">
           <div className="flex w-full items-center justify-between">
-            <span className="rounded-full border border-white/30 bg-black/20 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.24em] backdrop-blur">
-              Coffee &amp; more
+            <span className="rounded-lg border border-white/25 bg-white/95 px-3 py-1.5 shadow-lg">
+              <img src="/amora-logo.png" alt={settings.restaurantName} className="h-7 w-auto" />
             </span>
-            <span className="rounded-full bg-white/90 px-3 py-1.5 text-xs font-bold text-brand-700 shadow-lg">
-              Amora
-            </span>
-          </div>
-          <div>
-            <img src="/amora-logo.png" alt={settings.restaurantName} className="mx-auto mb-5 h-20 w-auto rounded-xl bg-white/95 px-4 py-2 shadow-2xl" />
-            <p className="text-xs font-bold uppercase tracking-[0.3em] text-white/75">Welcome to Amora</p>
-            <h1 className="mt-2 font-[var(--font-display)] text-4xl leading-tight text-white drop-shadow-lg sm:text-5xl">Brew. Twist. Enjoy.</h1>
           </div>
         </div>
       </section>
 
-      <section className="relative -mt-5 rounded-t-[2rem] bg-[#241e1b] px-5 pb-10 pt-7">
+      <section className="relative rounded-t-[2rem] bg-[#241e1b] px-5 pb-10 pt-5">
         <div className="mx-auto max-w-md">
           <div className="mb-6 flex items-end justify-between">
             <div>
@@ -58,13 +50,20 @@ export default function HomePage() {
             <HomeAction icon={<Wifi size={24} />} title="Free Wi-Fi" detail="Scan to connect" onClick={() => setWifiOpen(true)} tone="mint" />
           </div>
 
-          <div className="mt-6 flex items-center justify-between border-t border-white/10 pt-5 text-xs text-white/55">
-            <span>Follow the Amora feeling</span>
-            {settings.instagramUrl && (
-              <a href={settings.instagramUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 font-semibold text-white/80 hover:text-white">
-                <InstagramIcon size={14} /> @amora__coffeeshop
-              </a>
-            )}
+          <div className="mt-7 border-t border-white/10 pt-6">
+            <p className="text-center text-xs font-bold uppercase tracking-[0.22em] text-white/45">Follow Amora</p>
+            <div className="mt-3 flex justify-center gap-3">
+              {settings.instagramUrl && (
+                <a href={settings.instagramUrl} target="_blank" rel="noopener noreferrer" aria-label="Open Amora on Instagram" className="flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-white/10 text-white transition hover:-translate-y-0.5 hover:bg-white/20">
+                  <InstagramIcon size={20} />
+                </a>
+              )}
+              {settings.tiktokUrl && (
+                <a href={settings.tiktokUrl} target="_blank" rel="noopener noreferrer" aria-label="Open Amora on TikTok" className="flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-white/10 text-white transition hover:-translate-y-0.5 hover:bg-white/20">
+                  <TikTokIcon size={20} />
+                </a>
+              )}
+            </div>
           </div>
         </div>
       </section>
@@ -106,9 +105,9 @@ function HomeAction({
   href?: string;
   tone: 'coral' | 'gold' | 'cream' | 'mint';
 }) {
-  const className = `group relative min-h-36 overflow-hidden rounded-2xl p-4 text-left shadow-lg transition-transform hover:-translate-y-1 active:scale-[0.98] ${
+  const className = `group relative min-h-32 overflow-hidden rounded-2xl p-3.5 text-left shadow-lg transition-transform hover:-translate-y-1 active:scale-[0.98] sm:min-h-36 sm:p-4 ${
     tone === 'coral' ? 'bg-brand-600 text-white' : tone === 'gold' ? 'bg-[#c9a46a] text-[#241e1b]' : tone === 'cream' ? 'bg-[#fbf6f1] text-[#241e1b]' : 'bg-[#d7e4d6] text-[#241e1b]'
   }`;
-  const content = <><span className="flex h-11 w-11 items-center justify-center rounded-xl bg-black/10">{icon}</span><span className="mt-8 block text-lg font-extrabold leading-tight">{title}</span><span className="mt-1 block max-w-[130px] text-xs opacity-70">{detail}</span><ChevronRight className="absolute bottom-4 right-4 opacity-60 transition-transform group-hover:translate-x-1" size={18} /></>;
+  const content = <><span className="flex h-10 w-10 items-center justify-center rounded-xl bg-black/10">{icon}</span><span className="mt-6 block text-base font-extrabold leading-tight sm:mt-8 sm:text-lg">{title}</span><span className="mt-1 block max-w-[130px] text-[11px] leading-snug opacity-70 sm:text-xs">{detail}</span><ChevronRight className="absolute bottom-3.5 right-3.5 opacity-60 transition-transform group-hover:translate-x-1" size={17} /></>;
   return href ? <a className={className} href={href} target="_blank" rel="noopener noreferrer">{content}</a> : <button className={className} onClick={onClick}>{content}</button>;
 }

@@ -15,3 +15,11 @@ export function InstagramIcon({ size = 17 }: { size?: number }) {
     </svg>
   );
 }
+
+export function TikTokIcon({ size = 17 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M14.5 3h3.1c.2 1.8 1.2 3.2 2.9 4v3.2c-1.1-.1-2.2-.5-3.1-1.1v6.4c0 3.7-2.6 5.5-5.4 5.5-2.6 0-5-1.7-5-4.7 0-3.2 2.7-5.1 5.7-4.8v3.2c-1.3-.2-2.4.4-2.4 1.6 0 .9.7 1.6 1.7 1.6 1.2 0 2.5-.8 2.5-2.7V3Z" />
+    </svg>
+  );
+}
