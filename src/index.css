@@ -1,0 +1,208 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Pacifico", "Brush Script MT", cursive;
+  --font-sans: "Poppins", "Segoe UI", sans-serif;
+
+  --color-brand-50: #fcece7;
+  --color-brand-100: #f8d7ce;
+  --color-brand-200: #efb3a4;
+  --color-brand-300: #e98b72;
+  --color-brand-400: #d86a50;
+  --color-brand-500: #b9573d;
+  --color-brand-600: #a6472c;
+  --color-brand-700: #873923;
+  --color-brand-800: #692d20;
+  --color-brand-900: #48221a;
+
+  --color-ink-50: #f7f7f6;
+  --color-ink-100: #edeceb;
+  --color-ink-200: #d8d6d3;
+  --color-ink-300: #b9b6b0;
+  --color-ink-400: #8b877f;
+  --color-ink-500: #6c685f;
+  --color-ink-600: #504c44;
+  --color-ink-700: #3a372f;
+  --color-ink-800: #262420;
+  --color-ink-900: #16140f;
+
+  --color-cream-50: #fbf6f1;
+  --color-cream-100: #f5e9df;
+
+  --shadow-card: 0 2px 10px -2px rgb(22 20 15 / 0.07), 0 1px 2px rgb(22 20 15 / 0.05);
+  --shadow-elevated: 0 16px 36px -10px rgb(13 32 80 / 0.24);
+}
+
+:root {
+  /* Flavor Lab palette — swap these to re-theme the whole app */
+  --flavor-blue: #a6472c;
+  --flavor-blue-deep: #692d20;
+  --flavor-dark: #241e1b;
+  --flavor-cream: #fbf6f1;
+  --flavor-surface: #ffffff;
+  --flavor-border: #edeceb;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  background: var(--flavor-cream);
+  color: var(--flavor-dark);
+  font-family: var(--font-sans);
+  -webkit-tap-highlight-color: transparent;
+}
+
+* {
+  scrollbar-width: thin;
+}
+
+::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-ink-200);
+  border-radius: 999px;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 10px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+.animate-toast-in {
+  animation: toast-in 0.2s ease-out;
+}
+
+@keyframes sheet-up {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+.animate-sheet-up {
+  animation: sheet-up 0.28s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+.animate-pop {
+  animation: pop 0.18s ease-out;
+}
+
+@keyframes tube-shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px) rotate(-3deg); }
+  40% { transform: translateX(5px) rotate(2deg); }
+  60% { transform: translateX(-4px) rotate(-2deg); }
+  80% { transform: translateX(3px) rotate(1deg); }
+}
+.animate-tube-shake {
+  animation: tube-shake 0.36s ease-in-out;
+}
+
+@keyframes confetti-fall {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(110vh) rotate(540deg);
+    opacity: 0.2;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-fade-up {
+  animation: fade-up 0.32s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes check-pop {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.animate-check-pop {
+  animation: check-pop 0.32s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes float-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+.animate-float-bounce {
+  animation: float-bounce 2.2s ease-in-out infinite;
+}
+
+@keyframes ring-pulse {
+  0% { transform: scale(0.85); opacity: 0.55; }
+  100% { transform: scale(1.55); opacity: 0; }
+}
+.animate-ring-pulse {
+  animation: ring-pulse 1.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes circle-pop {
+  0% { transform: scale(0.6); opacity: 0; }
+  70% { transform: scale(1.06); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+.animate-circle-pop {
+  animation: circle-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-tube-shake,
+  .animate-pop,
+  .animate-fade-up,
+  .animate-check-pop,
+  .animate-float-bounce,
+  .animate-ring-pulse,
+  .animate-circle-pop {
+    animation: none !important;
+  }
+}
