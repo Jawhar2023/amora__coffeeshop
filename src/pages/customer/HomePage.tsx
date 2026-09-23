@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ChevronRight, Gamepad2, Menu, Star, Volume2, VolumeX, Wifi, X } from 'lucide-react';
+import { Check, ChevronRight, Copy, Gamepad2, Menu, Star, Volume2, VolumeX, Wifi, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { SettingsRepository } from '@/services/storage/settingsStorage';
 import { InstagramIcon, TikTokIcon } from '@/components/ui/SocialIcons';
@@ -11,6 +11,17 @@ export default function HomePage() {
   const settings = SettingsRepository.get();
   const [wifiOpen, setWifiOpen] = useState(false);
   const [soundOn, setSoundOn] = useState(false);
+  const [passwordCopied, setPasswordCopied] = useState(false);
+
+  const copyWifiPassword = async () => {
+    try {
+      await navigator.clipboard.writeText('Amir.51767038');
+      setPasswordCopied(true);
+      window.setTimeout(() => setPasswordCopied(false), 1800);
+    } catch {
+      setPasswordCopied(false);
+    }
+  };
 
   return (
     <main className="min-h-screen bg-[#241e1b] text-white">
@@ -22,8 +33,10 @@ export default function HomePage() {
           muted={!soundOn}
           loop
           playsInline
-          poster="/amora-logo.png"
-        />
+          poster="/amora-poster.webp"
+        >
+          <track kind="captions" src="/amora-cover.vtt" srcLang="en" label="English" />
+        </video>
         <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/25 to-[#241e1b]" />
         <button
           onClick={() => setSoundOn((enabled) => !enabled)}
@@ -39,7 +52,7 @@ export default function HomePage() {
               aria-label="Amora home"
               className="group rounded-2xl border border-white/70 bg-white px-5 py-3 shadow-xl transition hover:scale-[1.03]"
             >
-              <img src="/amora-logo-transparent.png" alt={settings.restaurantName} className="h-12 w-auto sm:h-14" />
+              <img src="/amora-logo-optimized.webp" alt={settings.restaurantName} width={260} height={168} className="h-12 w-auto sm:h-14" />
             </a>
           </div>
         </div>
@@ -75,11 +88,21 @@ export default function HomePage() {
             </div>
             <h2 id="wifi-title" className="mt-5 text-2xl font-extrabold">Connect to Wi-Fi</h2>
             <p className="mt-2 text-sm text-ink-500">Scan the QR code to connect to Amora Wi-Fi.</p>
-            <img src="/wifi-qr.png" alt="Wi-Fi QR code for Ooredoo 319958" className="mx-auto mt-5 h-56 w-56 rounded-xl bg-white object-contain p-2 shadow-card" />
+            <img src="/wifi-qr.png" alt="Wi-Fi QR code for Ooredoo 319958" width={224} height={224} className="mx-auto mt-5 h-56 w-56 rounded-xl bg-white object-contain p-2 shadow-card" />
             <div className="mt-5 rounded-xl bg-white px-4 py-3 text-left text-sm shadow-card">
               <p><span className="font-semibold text-ink-500">Network:</span> Ooredoo 319958</p>
               <p className="mt-1"><span className="font-semibold text-ink-500">Security:</span> WPA2</p>
-              <p className="mt-1"><span className="font-semibold text-ink-500">Password:</span> Amir.51767038</p>
+              <div className="mt-1 flex items-center gap-2">
+                <p className="min-w-0 flex-1"><span className="font-semibold text-ink-500">Password:</span> Amir.51767038</p>
+                <button
+                  type="button"
+                  onClick={copyWifiPassword}
+                  aria-label={passwordCopied ? 'Wi-Fi password copied' : 'Copy Wi-Fi password'}
+                  className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-brand-50 text-brand-700 transition hover:bg-brand-100"
+                >
+                  {passwordCopied ? <Check size={16} /> : <Copy size={16} />}
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -110,7 +133,7 @@ function HomeAction({
     <span className="absolute -right-8 -top-8 -z-10 h-24 w-24 rounded-full bg-white/15 transition-transform duration-500 group-hover:scale-150" aria-hidden="true" />
     <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/25 shadow-inner ring-1 ring-white/20 transition-transform duration-300 group-hover:scale-110">{icon}</span>
     <span className="mt-5 block text-base font-extrabold leading-tight sm:mt-7 sm:text-lg">{title}</span>
-    <span className="mt-1 block max-w-[140px] text-[11px] leading-snug opacity-70 sm:text-xs">{detail}</span>
+    <span className="mt-1 block max-w-[140px] text-[11px] leading-snug opacity-85 sm:text-xs">{detail}</span>
     <span className="absolute bottom-3.5 right-3.5 flex h-7 w-7 items-center justify-center rounded-full bg-black/10 transition-transform group-hover:translate-x-1"><ChevronRight size={16} /></span>
   </>;
   return href ? <a className={className} href={href} target="_blank" rel="noopener noreferrer">{content}</a> : <button className={className} onClick={onClick}>{content}</button>;

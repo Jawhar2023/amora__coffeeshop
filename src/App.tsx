@@ -1,3 +1,4 @@
+import { lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { LanguageProvider } from '@/i18n/LanguageContext';
 import { ToastProvider } from '@/context/ToastContext';
@@ -6,35 +7,35 @@ import { CartProvider } from '@/context/CartContext';
 import CustomerLayout from '@/components/menu/CustomerLayout';
 import MenuPage from '@/pages/customer/MenuPage';
 import HomePage from '@/pages/customer/HomePage';
-import ProductPage from '@/pages/customer/ProductPage';
-import CartPage from '@/pages/customer/CartPage';
-import OrderConfirmationPage from '@/pages/customer/OrderConfirmationPage';
-import GameCenterPage from '@/pages/customer/GameCenterPage';
-import FavoritesPage from '@/pages/customer/FavoritesPage';
-import SnakeGame from '@/pages/customer/games/SnakeGame';
-import MemoryGame from '@/pages/customer/games/MemoryGame';
-import CatchFoodGame from '@/pages/customer/games/CatchFoodGame';
-import ReactionGame from '@/pages/customer/games/ReactionGame';
-import QuizGame from '@/pages/customer/games/QuizGame';
-import TruthOrDareGame from '@/pages/customer/games/TruthOrDareGame';
-import BlockBlastGame from '@/pages/customer/games/BlockBlastGame';
-import RoadRaceGame from '@/pages/customer/games/RoadRaceGame';
-import XOGame from '@/pages/customer/games/XOGame';
-import WaterSortGame from '@/pages/customer/games/water-sort/WaterSortGame';
+const ProductPage = lazy(() => import('@/pages/customer/ProductPage'));
+const CartPage = lazy(() => import('@/pages/customer/CartPage'));
+const OrderConfirmationPage = lazy(() => import('@/pages/customer/OrderConfirmationPage'));
+const GameCenterPage = lazy(() => import('@/pages/customer/GameCenterPage'));
+const FavoritesPage = lazy(() => import('@/pages/customer/FavoritesPage'));
+const SnakeGame = lazy(() => import('@/pages/customer/games/SnakeGame'));
+const MemoryGame = lazy(() => import('@/pages/customer/games/MemoryGame'));
+const CatchFoodGame = lazy(() => import('@/pages/customer/games/CatchFoodGame'));
+const ReactionGame = lazy(() => import('@/pages/customer/games/ReactionGame'));
+const QuizGame = lazy(() => import('@/pages/customer/games/QuizGame'));
+const TruthOrDareGame = lazy(() => import('@/pages/customer/games/TruthOrDareGame'));
+const BlockBlastGame = lazy(() => import('@/pages/customer/games/BlockBlastGame'));
+const RoadRaceGame = lazy(() => import('@/pages/customer/games/RoadRaceGame'));
+const XOGame = lazy(() => import('@/pages/customer/games/XOGame'));
+const WaterSortGame = lazy(() => import('@/pages/customer/games/water-sort/WaterSortGame'));
 
 import AdminLayout from '@/components/admin/AdminLayout';
 import RequireAuth from '@/components/admin/RequireAuth';
-import LoginPage from '@/pages/admin/LoginPage';
-import DashboardPage from '@/pages/admin/DashboardPage';
-import OrdersPage from '@/pages/admin/OrdersPage';
-import ProductsPage from '@/pages/admin/ProductsPage';
-import CategoriesPage from '@/pages/admin/CategoriesPage';
-import AddonsPage from '@/pages/admin/AddonsPage';
-import PromotionsPage from '@/pages/admin/PromotionsPage';
-import GamesPage from '@/pages/admin/GamesPage';
-import AnalyticsPage from '@/pages/admin/AnalyticsPage';
-import ReviewsPage from '@/pages/admin/ReviewsPage';
-import SettingsPage from '@/pages/admin/SettingsPage';
+const LoginPage = lazy(() => import('@/pages/admin/LoginPage'));
+const DashboardPage = lazy(() => import('@/pages/admin/DashboardPage'));
+const OrdersPage = lazy(() => import('@/pages/admin/OrdersPage'));
+const ProductsPage = lazy(() => import('@/pages/admin/ProductsPage'));
+const CategoriesPage = lazy(() => import('@/pages/admin/CategoriesPage'));
+const AddonsPage = lazy(() => import('@/pages/admin/AddonsPage'));
+const PromotionsPage = lazy(() => import('@/pages/admin/PromotionsPage'));
+const GamesPage = lazy(() => import('@/pages/admin/GamesPage'));
+const AnalyticsPage = lazy(() => import('@/pages/admin/AnalyticsPage'));
+const ReviewsPage = lazy(() => import('@/pages/admin/ReviewsPage'));
+const SettingsPage = lazy(() => import('@/pages/admin/SettingsPage'));
 
 export default function App() {
   return (
@@ -42,7 +43,8 @@ export default function App() {
       <ToastProvider>
         <CartProvider>
           <BrowserRouter>
-            <Routes>
+            <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-cream-50 text-sm text-ink-500">Loading...</div>}>
+              <Routes>
               <Route path="/" element={<HomePage />} />
 
               <Route element={<CustomerLayout />}>
@@ -87,7 +89,8 @@ export default function App() {
               </Route>
 
               <Route path="*" element={<Navigate to="/menu" replace />} />
-            </Routes>
+              </Routes>
+            </Suspense>
           </BrowserRouter>
         </CartProvider>
       </ToastProvider>
