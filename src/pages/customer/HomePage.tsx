@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ChevronRight, Gamepad2, Menu, Star, Wifi, X } from 'lucide-react';
+import { ChevronRight, Gamepad2, Menu, Star, Volume2, VolumeX, Wifi, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { SettingsRepository } from '@/services/storage/settingsStorage';
 import { InstagramIcon, TikTokIcon } from '@/components/ui/SocialIcons';
@@ -10,6 +10,7 @@ export default function HomePage() {
   const navigate = useNavigate();
   const settings = SettingsRepository.get();
   const [wifiOpen, setWifiOpen] = useState(false);
+  const [soundOn, setSoundOn] = useState(false);
 
   return (
     <main className="min-h-screen bg-[#241e1b] text-white">
@@ -18,16 +19,23 @@ export default function HomePage() {
           className="absolute inset-0 h-full w-full object-cover"
           src="/amora-cover.mp4"
           autoPlay
-          muted
+          muted={!soundOn}
           loop
           playsInline
           poster="/amora-logo.png"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/25 to-[#241e1b]" />
+        <button
+          onClick={() => setSoundOn((enabled) => !enabled)}
+          aria-label={soundOn ? 'Mute cover video' : 'Play cover video sound'}
+          className="absolute bottom-5 right-5 z-10 flex h-11 w-11 items-center justify-center rounded-full border border-white/30 bg-black/35 text-white shadow-lg backdrop-blur transition hover:bg-black/55"
+        >
+          {soundOn ? <Volume2 size={19} /> : <VolumeX size={19} />}
+        </button>
         <div className="relative flex h-full flex-col items-center justify-between px-6 pb-10 pt-8 text-center">
           <div className="flex w-full items-center justify-between">
-            <span className="rounded-lg border border-white/25 bg-white/95 px-3 py-1.5 shadow-lg">
-              <img src="/amora-logo.png" alt={settings.restaurantName} className="h-7 w-auto" />
+            <span className="rounded-xl border border-white/25 bg-white/95 px-4 py-2 shadow-lg">
+              <img src="/amora-logo.png" alt={settings.restaurantName} className="h-10 w-auto sm:h-12" />
             </span>
           </div>
         </div>
